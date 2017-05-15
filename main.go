@@ -97,6 +97,7 @@ func GetSunriseSunset(latitude float64, longitude float64) (string, string, stri
 		log.Fatal(err)
 	}
 	defer resp.Body.Close()
+
 	err = json.NewDecoder(resp.Body).Decode(&ss)
 	return ss.Results.Sunrise, ss.Results.Sunset, ss.Results.DayLength
 }
