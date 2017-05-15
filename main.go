@@ -10,22 +10,23 @@ import (
 var apiUrl = "https://api.sunrise-sunset.org/json"
 var externalIPurl = "http://checkip.amazonaws.com/"
 
-func checkIP() {
+func checkIP() string {
 	response, err := http.Get(externalIPurl)
 	if err != nil {
 		log.Fatal(err)
 	}
 	defer response.Body.Close()
 
-	html, err := ioutil.ReadAll(response.Body)
+	bytes, err := ioutil.ReadAll(response.Body)
 	if err != nil {
 		panic(err)
 	}
 
-	fmt.Printf("%s", html)
+	// html is uint8
+	return string(bytes)
 }
 
 func main() {
 	fmt.Println("api endpoint:", apiUrl)
-	checkIP()
+	fmt.Printf("%s", checkIP())
 }
