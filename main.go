@@ -4,13 +4,15 @@ import (
 	"fmt"
 	"io/ioutil"
 	"log"
+	"net"
 	"net/http"
+	"strings"
 )
 
 var apiUrl = "https://api.sunrise-sunset.org/json"
 var externalIPurl = "http://checkip.amazonaws.com/"
 
-func checkIP() string {
+func GetIP() net.IP {
 	response, err := http.Get(externalIPurl)
 	if err != nil {
 		log.Fatal(err)
@@ -21,12 +23,10 @@ func checkIP() string {
 	if err != nil {
 		panic(err)
 	}
-
-	// html is uint8
-	return string(bytes)
+	return net.ParseIP(strings.TrimSpace(string(bytes)))
 }
 
 func main() {
-	fmt.Println("api endpoint:", apiUrl)
-	fmt.Printf("%s", checkIP())
+	ipAddress := GetIP()
+	fmt.Println(ipAddress)
 }
