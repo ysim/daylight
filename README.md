@@ -10,4 +10,4 @@ Inspired by `wttr.in`.
 
 Links:
 
-* <https://github.com/oschwald/geoip2-golang>
+* <https://www.reddit.com/r/golang/comments/3hdzza/ip_geolocation_in_go/cu84x1g/>
