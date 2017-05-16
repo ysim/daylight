@@ -28,6 +28,7 @@ type GeoIP struct {
 	Longitude   float64 `json:"longitude"`
 	MetroCode   int     `json:"metro_code"`
 	AreaCode    int     `json:"area_code"`
+	Timezone    string  `json:"time_zone"`
 }
 
 var geo GeoIP
@@ -52,9 +53,15 @@ type SunriseSunset struct {
 
 var ss SunriseSunset
 
-type Coordinates struct {
+type Location struct {
+	City      string
+	Country   string
 	Latitude  float64
 	Longitude float64
+	Timezone  string
+	Sunrise   string
+	Sunset    string
+	DayLength string
 }
 
 func GetIP() string {
@@ -71,22 +78,21 @@ func GetIP() string {
 	return strings.TrimSpace(string(bytes))
 }
 
-func GetCoordinatesFromIP(ip string) *Coordinates {
+func GetCoordinatesFromIP(ip string) Location {
 	response, err := http.Get(geoIPurl + ip)
 	if err != nil {
 		log.Fatal(err)
 	}
 	err = json.NewDecoder(response.Body).Decode(&geo)
-	log.Printf("Getting latitude and longitude for %s, %s", geo.City, geo.CountryName)
-	c := &Coordinates{Latitude: geo.Latitude, Longitude: geo.Longitude}
-	return c
+	location := Location{City: geo.City, Country: geo.CountryName, Timezone: geo.Timezone, Latitude: geo.Latitude, Longitude: geo.Longitude}
+	return location
 }
 
 func FloatToString(num float64) string {
 	return strconv.FormatFloat(num, 'f', 7, 64)
 }
 
-func GetSunriseSunset(c *Coordinates) (string, string, string) {
+func (location *Location) GetSunriseSunset() {
 	// Build the request
 	client := &http.Client{}
 	req, err := http.NewRequest("GET", sunriseSunsetUrl, nil)
@@ -94,8 +100,8 @@ func GetSunriseSunset(c *Coordinates) (string, string, string) {
 		log.Fatal(err)
 	}
 	q := req.URL.Query()
-	q.Add("lat", FloatToString(c.Latitude))
-	q.Add("lng", FloatToString(c.Longitude))
+	q.Add("lat", FloatToString(location.Latitude))
+	q.Add("lng", FloatToString(location.Longitude))
 	req.URL.RawQuery = q.Encode()
 
 	resp, err := client.Do(req)
@@ -105,12 +111,14 @@ func GetSunriseSunset(c *Coordinates) (string, string, string) {
 	defer resp.Body.Close()
 
 	err = json.NewDecoder(resp.Body).Decode(&ss)
-	return ss.Results.Sunrise, ss.Results.Sunset, ss.Results.DayLength
+	location.Sunrise = ss.Results.Sunrise
+	location.Sunset = ss.Results.Sunset
+	location.DayLength = ss.Results.DayLength
 }
 
 func main() {
 	ipAddress := GetIP()
-	coordinates := GetCoordinatesFromIP(ipAddress)
-	sunrise, sunset, dayLength := GetSunriseSunset(coordinates)
-	fmt.Printf("sunrise: %s UTC\nsunset: %s UTC\nday length: %s\n", sunrise, sunset, dayLength)
+	location := GetCoordinatesFromIP(ipAddress)
+	location.GetSunriseSunset()
+	fmt.Printf("sunrise: %s UTC\nsunset: %s UTC\nday length: %s\n", location.Sunrise, location.Sunset, location.DayLength)
 }
