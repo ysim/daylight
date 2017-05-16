@@ -50,6 +50,11 @@ type SunriseSunset struct {
 
 var ss SunriseSunset
 
+type Coordinates struct {
+	Latitude  float64
+	Longitude float64
+}
+
 func GetIP() string {
 	response, err := http.Get(externalIPurl)
 	if err != nil {
@@ -64,23 +69,22 @@ func GetIP() string {
 	return strings.TrimSpace(string(bytes))
 }
 
-func GetCoordinatesFromIP(ip string) (float64, float64) {
+func GetCoordinatesFromIP(ip string) *Coordinates {
 	response, err := http.Get(geoIPurl + ip)
 	if err != nil {
 		log.Fatal(err)
 	}
 	err = json.NewDecoder(response.Body).Decode(&geo)
-	latitude := geo.Latitude
-	longitude := geo.Longitude
 	log.Printf("Getting latitude and longitude for %s, %s", geo.City, geo.CountryName)
-	return latitude, longitude
+	c := &Coordinates{Latitude: geo.Latitude, Longitude: geo.Longitude}
+	return c
 }
 
 func FloatToString(num float64) string {
 	return strconv.FormatFloat(num, 'f', 7, 64)
 }
 
-func GetSunriseSunset(latitude float64, longitude float64) (string, string, string) {
+func GetSunriseSunset(c *Coordinates) (string, string, string) {
 	// Build the request
 	client := &http.Client{}
 	req, err := http.NewRequest("GET", sunriseSunsetUrl, nil)
@@ -88,8 +92,8 @@ func GetSunriseSunset(latitude float64, longitude float64) (string, string, stri
 		log.Fatal(err)
 	}
 	q := req.URL.Query()
-	q.Add("lat", FloatToString(latitude))
-	q.Add("lng", FloatToString(longitude))
+	q.Add("lat", FloatToString(c.Latitude))
+	q.Add("lng", FloatToString(c.Longitude))
 	req.URL.RawQuery = q.Encode()
 
 	resp, err := client.Do(req)
@@ -104,7 +108,7 @@ func GetSunriseSunset(latitude float64, longitude float64) (string, string, stri
 
 func main() {
 	ipAddress := GetIP()
-	latitude, longitude := GetCoordinatesFromIP(ipAddress)
-	sunrise, sunset, dayLength := GetSunriseSunset(latitude, longitude)
-	fmt.Printf("sunrise: %s\nsunset: %s\nday length: %s\n", sunrise, sunset, dayLength)
+	coordinates := GetCoordinatesFromIP(ipAddress)
+	sunrise, sunset, dayLength := GetSunriseSunset(coordinates)
+	fmt.Printf("sunrise: %s UTC\nsunset: %s UTC\nday length: %s\n", sunrise, sunset, dayLength)
 }
