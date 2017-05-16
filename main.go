@@ -118,21 +118,29 @@ func (location *Location) GetSunriseSunset() {
 	location.DayLength = ss.Results.DayLength
 }
 
+func StringToTime(timeInput string) (time.Time, error) {
+	layout := "2006-01-02T15:04:05-07:00"
+	timeParsed, err := time.Parse(layout, timeInput)
+	if err != nil {
+		log.Fatal("Unable to parse time:", timeInput)
+	}
+	return timeParsed, nil
+}
+
 func (location *Location) GetLocalizedSunriseSunset() {
 	// Populates the Sunrise and Sunset fields
 	// TODO: Check that SunriseUTC, SunsetUTC, and Timezone are populated
-	layout := "2006-01-02T15:04:05-07:00"
-	sunriseUTCTime, err := time.Parse(layout, location.SunriseUTC)
-	if err != nil {
-		log.Fatal("Unable to parse time:", location.SunriseUTC)
-	}
+	sunriseUTCTime, _ := StringToTime(location.SunriseUTC)
+	sunsetUTCTime, _ := StringToTime(location.SunsetUTC)
 
 	localizedTimezone, err := time.LoadLocation(location.Timezone)
 	if err != nil {
 		log.Fatal("Unable to load location: %s", err)
 	}
-	localizedTime := sunriseUTCTime.In(localizedTimezone)
-	fmt.Println(localizedTime)
+	localizedSunriseTime := sunriseUTCTime.In(localizedTimezone)
+	localizedSunsetTime := sunsetUTCTime.In(localizedTimezone)
+	fmt.Println(localizedSunriseTime)
+	fmt.Println(localizedSunsetTime)
 }
 
 func (location *Location) Display() {
