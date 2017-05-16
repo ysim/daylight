@@ -87,7 +87,7 @@ func ExtractCityFromTimezone(timezone string) string {
 	return city
 }
 
-func GetCoordinatesFromIP(ip string) Location {
+func GetLocationInfoFromIP(ip string) Location {
 	response, err := http.Get(geoIPurl + ip)
 	if err != nil {
 		log.Fatal(err)
@@ -171,7 +171,7 @@ func (location *Location) Display() {
 
 func main() {
 	ipAddress := GetIP()
-	location := GetCoordinatesFromIP(ipAddress)
+	location := GetLocationInfoFromIP(ipAddress)
 	location.GetSunriseSunset()
 	location.GetLocalizedSunriseSunset()
 	location.Display()
