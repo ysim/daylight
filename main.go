@@ -55,14 +55,16 @@ type SunriseSunset struct {
 var ss SunriseSunset
 
 type Location struct {
-	City       string
-	Country    string
-	Latitude   float64
-	Longitude  float64
-	Timezone   string
-	SunriseUTC string
-	SunsetUTC  string
-	DayLength  string
+	City         string
+	Country      string
+	Latitude     float64
+	Longitude    float64
+	Timezone     string
+	SunriseUTC   string
+	SunsetUTC    string
+	DayLength    string
+	SunriseLocal time.Time
+	SunsetLocal  time.Time
 }
 
 func GetIP() string {
@@ -137,15 +139,22 @@ func (location *Location) GetLocalizedSunriseSunset() {
 	if err != nil {
 		log.Fatal("Unable to load location: %s", err)
 	}
-	localizedSunriseTime := sunriseUTCTime.In(localizedTimezone)
-	localizedSunsetTime := sunsetUTCTime.In(localizedTimezone)
-	fmt.Println(localizedSunriseTime)
-	fmt.Println(localizedSunsetTime)
+	location.SunriseLocal = sunriseUTCTime.In(localizedTimezone)
+	location.SunsetLocal = sunsetUTCTime.In(localizedTimezone)
+}
+
+func FormatTimeForUser(timeInput time.Time) string {
+	layout := "3:04 PM"
+	formattedTime := timeInput.Format(layout)
+	return formattedTime
 }
 
 func (location *Location) Display() {
 	// Info that is printed to the screen for the user
-	fmt.Printf("sunrise: %s UTC\nsunset: %s UTC\nday length: %s\n", location.SunriseUTC, location.SunsetUTC, location.DayLength)
+	formattedSunriseTime := FormatTimeForUser(location.SunriseLocal)
+	formattedSunsetTime := FormatTimeForUser(location.SunsetLocal)
+	fmt.Printf("%s, %s\n", location.City, location.Country)
+	fmt.Printf("sunrise: %s\nsunset: %s\nday length: %s\n", formattedSunriseTime, formattedSunsetTime)
 }
 
 func main() {
@@ -153,4 +162,5 @@ func main() {
 	location := GetCoordinatesFromIP(ipAddress)
 	location.GetSunriseSunset()
 	location.GetLocalizedSunriseSunset()
+	location.Display()
 }
