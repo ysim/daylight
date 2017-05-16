@@ -14,5 +14,8 @@ clean:
 run:
 	go run main.go
 
+test:
+	go test
+
 build: main.go
 	go build -o daylight
