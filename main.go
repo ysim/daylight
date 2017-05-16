@@ -166,7 +166,7 @@ func (location *Location) Display() {
 	formattedSunriseTime := FormatTimeForUser(location.SunriseLocal)
 	formattedSunsetTime := FormatTimeForUser(location.SunsetLocal)
 	fmt.Printf("%s, %s\n", location.City, location.Country)
-	fmt.Printf("sunrise: %s\nsunset: %s\nday length: %s\n", formattedSunriseTime, formattedSunsetTime)
+	fmt.Printf("sunrise: %s\nsunset: %s\n", formattedSunriseTime, formattedSunsetTime)
 }
 
 func main() {
