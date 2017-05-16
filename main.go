@@ -8,6 +8,7 @@ import (
 	"net/http"
 	"strconv"
 	"strings"
+	"time"
 )
 
 var (
@@ -102,6 +103,7 @@ func (location *Location) GetSunriseSunset() {
 	q := req.URL.Query()
 	q.Add("lat", FloatToString(location.Latitude))
 	q.Add("lng", FloatToString(location.Longitude))
+	q.Add("formatted", "0")
 	req.URL.RawQuery = q.Encode()
 
 	resp, err := client.Do(req)
@@ -116,6 +118,23 @@ func (location *Location) GetSunriseSunset() {
 	location.DayLength = ss.Results.DayLength
 }
 
+func (location *Location) GetLocalizedSunriseSunset() {
+	// Populates the Sunrise and Sunset fields
+	// TODO: Check that SunriseUTC, SunsetUTC, and Timezone are populated
+	layout := "2006-01-02T15:04:05-07:00"
+	sunriseUTCTime, err := time.Parse(layout, location.SunriseUTC)
+	if err != nil {
+		log.Fatal("Unable to parse time:", location.SunriseUTC)
+	}
+
+	localizedTimezone, err := time.LoadLocation(location.Timezone)
+	if err != nil {
+		log.Fatal("Unable to load location: %s", err)
+	}
+	localizedTime := sunriseUTCTime.In(localizedTimezone)
+	fmt.Println(localizedTime)
+}
+
 func (location *Location) Display() {
 	// Info that is printed to the screen for the user
 	fmt.Printf("sunrise: %s UTC\nsunset: %s UTC\nday length: %s\n", location.SunriseUTC, location.SunsetUTC, location.DayLength)
@@ -125,5 +144,5 @@ func main() {
 	ipAddress := GetIP()
 	location := GetCoordinatesFromIP(ipAddress)
 	location.GetSunriseSunset()
-	location.Display()
+	location.GetLocalizedSunriseSunset()
 }
