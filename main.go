@@ -81,6 +81,12 @@ func GetIP() string {
 	return strings.TrimSpace(string(bytes))
 }
 
+func ExtractCityFromTimezone(timezone string) string {
+	splitTimezone := strings.Split(timezone, "/")
+	city := splitTimezone[len(splitTimezone)-1]
+	return city
+}
+
 func GetCoordinatesFromIP(ip string) Location {
 	response, err := http.Get(geoIPurl + ip)
 	if err != nil {
@@ -88,6 +94,11 @@ func GetCoordinatesFromIP(ip string) Location {
 	}
 	err = json.NewDecoder(response.Body).Decode(&geo)
 	location := Location{City: geo.City, Country: geo.CountryName, Timezone: geo.Timezone, Latitude: geo.Latitude, Longitude: geo.Longitude}
+
+	// Sometimes freegeoip doesn't return the city name for some reason
+	if geo.City == "" {
+		location.City = ExtractCityFromTimezone(geo.Timezone)
+	}
 	return location
 }
 
