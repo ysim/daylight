@@ -10,9 +10,11 @@ import (
 	"strings"
 )
 
-var externalIPurl = "http://checkip.amazonaws.com/"
-var geoIPurl = "https://freegeoip.net/json/"
-var sunriseSunsetUrl = "https://api.sunrise-sunset.org/json"
+var (
+	externalIPurl    = "http://checkip.amazonaws.com/"
+	geoIPurl         = "https://freegeoip.net/json/"
+	sunriseSunsetUrl = "https://api.sunrise-sunset.org/json"
+)
 
 type GeoIP struct {
 	Ip          string  `json:"ip"`
