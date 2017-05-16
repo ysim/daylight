@@ -54,14 +54,14 @@ type SunriseSunset struct {
 var ss SunriseSunset
 
 type Location struct {
-	City      string
-	Country   string
-	Latitude  float64
-	Longitude float64
-	Timezone  string
-	Sunrise   string
-	Sunset    string
-	DayLength string
+	City       string
+	Country    string
+	Latitude   float64
+	Longitude  float64
+	Timezone   string
+	SunriseUTC string
+	SunsetUTC  string
+	DayLength  string
 }
 
 func GetIP() string {
@@ -111,14 +111,19 @@ func (location *Location) GetSunriseSunset() {
 	defer resp.Body.Close()
 
 	err = json.NewDecoder(resp.Body).Decode(&ss)
-	location.Sunrise = ss.Results.Sunrise
-	location.Sunset = ss.Results.Sunset
+	location.SunriseUTC = ss.Results.Sunrise
+	location.SunsetUTC = ss.Results.Sunset
 	location.DayLength = ss.Results.DayLength
+}
+
+func (location *Location) Display() {
+	// Info that is printed to the screen for the user
+	fmt.Printf("sunrise: %s UTC\nsunset: %s UTC\nday length: %s\n", location.SunriseUTC, location.SunsetUTC, location.DayLength)
 }
 
 func main() {
 	ipAddress := GetIP()
 	location := GetCoordinatesFromIP(ipAddress)
 	location.GetSunriseSunset()
-	fmt.Printf("sunrise: %s UTC\nsunset: %s UTC\nday length: %s\n", location.Sunrise, location.Sunset, location.DayLength)
+	location.Display()
 }
