@@ -126,6 +126,7 @@ func StringToTime(timeInput string) (time.Time, error) {
 	if err != nil {
 		log.Fatal("Unable to parse time:", timeInput)
 	}
+	//log.Printf("Parsed '%s' to '%s'\n", timeInput, timeParsed)
 	return timeParsed, nil
 }
 
