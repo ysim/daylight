@@ -4,6 +4,9 @@ Inspired by `wttr.in`, this little command line util tells you the sunrise and
 sunset time of your current location by grabbing the latitude and longitude
 based on your IP address (hence, it may not work if you're behind a VPN).
 
+This was written as a fun intro project to Go. :)
+
+
 ### Usage
 
 Compile the binary and run the program:
@@ -21,6 +24,7 @@ Compile the binary and run the program:
 * <https://sunrise-sunset.org/api>
 * <https://freegeoip.net>
 
-Links:
+
+### Links
 
 * <https://www.reddit.com/r/golang/comments/3hdzza/ip_geolocation_in_go/cu84x1g/>
