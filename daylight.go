@@ -1,4 +1,4 @@
-package main
+package daylight
 
 import (
 	"encoding/json"
@@ -172,12 +172,4 @@ func (location *Location) Display() {
 	formattedSunsetTime := FormatTimeForUser(location.SunsetLocal)
 	fmt.Printf("%s, %s\n", location.City, location.Country)
 	fmt.Printf("sunrise: %s\nsunset: %s\n", formattedSunriseTime, formattedSunsetTime)
-}
-
-func main() {
-	ipAddress := GetIP()
-	location := GetLocationInfoFromIP(ipAddress)
-	location.GetSunriseSunset()
-	location.GetLocalizedSunriseSunset()
-	location.Display()
 }
