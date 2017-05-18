@@ -19,3 +19,5 @@ test:
 
 build: main.go
 	go build -o daylight
+
+.PHONY: all clean run test build
