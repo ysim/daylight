@@ -8,19 +8,19 @@ import (
 func TestExtractCityFromTimezone(t *testing.T) {
 	tables := []struct {
 		Timezone       string
-		ExpectedResult string
+		ExpectedResult City
 	}{
 		{
 			"Europe/Oslo",
-			"Oslo",
+			City{"Oslo"},
 		},
 		{
 			"America/Kentucky/Louisville",
-			"Louisville",
+			City{"Louisville"},
 		},
 		{
 			"America/St_Johns",
-			"St_Johns",
+			City{"St Johns"},
 		},
 	}
 

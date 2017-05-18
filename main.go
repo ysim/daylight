@@ -67,6 +67,10 @@ type Location struct {
 	SunsetLocal  time.Time
 }
 
+type City struct {
+	Name string
+}
+
 func GetIP() string {
 	response, err := http.Get(externalIPurl)
 	if err != nil {
@@ -81,9 +85,10 @@ func GetIP() string {
 	return strings.TrimSpace(string(bytes))
 }
 
-func ExtractCityFromTimezone(timezone string) string {
+func ExtractCityFromTimezone(timezone string) City {
 	splitTimezone := strings.Split(timezone, "/")
-	city := splitTimezone[len(splitTimezone)-1]
+	city := City{splitTimezone[len(splitTimezone)-1]}
+	city.Name = strings.Replace(city.Name, "_", " ", -1)
 	return city
 }
 
@@ -97,7 +102,7 @@ func GetLocationInfoFromIP(ip string) Location {
 
 	// Sometimes freegeoip doesn't return the city name for some reason
 	if geo.City == "" {
-		location.City = ExtractCityFromTimezone(geo.Timezone)
+		location.City = ExtractCityFromTimezone(geo.Timezone).Name
 	}
 	return location
 }
