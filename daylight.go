@@ -111,7 +111,7 @@ func FloatToString(num float64) string {
 	return strconv.FormatFloat(num, 'f', 7, 64)
 }
 
-func (location *Location) GetSunriseSunset() {
+func (location *Location) GetSunriseSunset(date string) {
 	// Build the request
 	client := &http.Client{}
 	req, err := http.NewRequest("GET", sunriseSunsetUrl, nil)
@@ -122,6 +122,7 @@ func (location *Location) GetSunriseSunset() {
 	q.Add("lat", FloatToString(location.Latitude))
 	q.Add("lng", FloatToString(location.Longitude))
 	q.Add("formatted", "0")
+	q.Add("date", date)
 	req.URL.RawQuery = q.Encode()
 
 	resp, err := client.Do(req)

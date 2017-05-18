@@ -32,6 +32,13 @@ are (based on your IP address), today:
     sunrise: 4:35 AM
     sunset: 9:51 PM
 
+Get the local sunrise/sunset times for another day:
+
+    $ daylight-cli -date=2016-09-25
+    Oslo, Norway
+    sunrise: 7:10 AM
+    sunset: 7:06 PM
+
 
 ### APIs and resources used
 
