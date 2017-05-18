@@ -11,12 +11,23 @@ This was written as a fun intro project to Go. :)
 Inspired by [`wttr.in`](https://github.com/chubin/wttr.in).
 
 
+### Installation
+
+Compile the binary:
+
+    make
+
+Install the binary somewhere on your path (I like `$HOME/bin` on OS X; YMMV):
+
+    install bin/daylight-cli $HOME/bin
+
+
 ### Usage
 
-Compile the binary and run the program:
+Running the binary with no flags gives you the sunrise/sunset times where you
+are (based on your IP address), today:
 
-    $ make
-    $ ./daylight
+    $ daylight-cli
     Oslo, Norway
     sunrise: 4:35 AM
     sunset: 9:51 PM
@@ -32,3 +43,4 @@ Compile the binary and run the program:
 ### Links
 
 * <https://www.reddit.com/r/golang/comments/3hdzza/ip_geolocation_in_go/cu84x1g/>
+* <https://medium.com/@benbjohnson/structuring-applications-in-go-3b04be4ff091>
