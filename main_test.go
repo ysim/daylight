@@ -22,6 +22,10 @@ func TestExtractCityFromTimezone(t *testing.T) {
 			"America/St_Johns",
 			City{"St Johns"},
 		},
+		{
+			"Africa/Porto-Novo",
+			City{"Porto-Novo"},
+		},
 	}
 
 	for _, table := range tables {
