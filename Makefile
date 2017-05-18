@@ -1,11 +1,5 @@
 #!/usr/bin/make -f
 
-# Expanded at declaration time; references Go workspace four directories up
-export GOPATH:=$(CURDIR)/../../../../
-
-# Set if absent; this is the default for OS X
-export GOROOT?=/usr/local/go
-
 all: build
 
 get-deps:
