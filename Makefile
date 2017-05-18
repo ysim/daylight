@@ -8,6 +8,9 @@ export GOROOT?=/usr/local/go
 
 all: build
 
+get-deps:
+	go get github.com/stretchr/testify/assert
+
 clean:
 	$(RM) daylight
 
@@ -20,4 +23,4 @@ test:
 build: main.go
 	go build -o daylight
 
-.PHONY: all clean run test build
+.PHONY: all get-deps clean run test build
