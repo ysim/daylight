@@ -5,7 +5,6 @@ import (
 	"github.com/ysim/daylight"
 	"log"
 	"net/http"
-	"net/url"
 	"os"
 )
 
