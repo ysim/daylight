@@ -23,11 +23,16 @@ func GetClientIP(r *http.Request) string {
 }
 
 func handler(w http.ResponseWriter, r *http.Request) {
-	clientIP := GetClientIP(r)
-	location := daylight.BuildLocation("", clientIP)
-	location.GetSunriseSunset("today")
-	location.GetLocalizedSunriseSunset()
-	fmt.Fprintf(w, "%s", location.GetDisplayString())
+	externalip := daylight.GetIP()
+	xff := r.Header.Get("X-Forwarded-For")
+	remoteaddr := r.RemoteAddr
+	fmt.Fprintf(w, "external IP: %s\norigin IP: %s\nremote addr: %s", externalip, xff, remoteaddr)
+	// TODO: uncomment when GetClientIP is fixed
+	//clientIP := GetClientIP(r)
+	//location := daylight.BuildLocation("", clientIP)
+	//location.GetSunriseSunset("today")
+	//location.GetLocalizedSunriseSunset()
+	//fmt.Fprintf(w, "%s", location.GetDisplayString())
 }
 
 func main() {
