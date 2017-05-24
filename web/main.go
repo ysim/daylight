@@ -2,18 +2,33 @@ package main
 
 import (
 	"fmt"
+	"github.com/ysim/daylight"
 	"log"
 	"net/http"
+	"net/url"
 	"os"
 )
 
-func GetClientIP(r *http.Request) (string, string) {
-	return r.RemoteAddr, r.Header.Get("X-Forwarded-For")
+func GetClientIP(r *http.Request) string {
+	// If request is relative (localhost), check external IP instead
+	if r.URL.IsAbs() == false {
+		return daylight.GetIP()
+	}
+
+	xff := r.Header.Get("X-Forwarded-For")
+	if xff != "" {
+		return xff
+	}
+
+	return r.RemoteAddr
 }
 
 func handler(w http.ResponseWriter, r *http.Request) {
-	remoteAddr, originIP := GetClientIP(r)
-	fmt.Fprintf(w, "RemoteAddr: %s, X-Forwarded-For: %s", remoteAddr, originIP)
+	clientIP := GetClientIP(r)
+	location := daylight.BuildLocation("", clientIP)
+	location.GetSunriseSunset("today")
+	location.GetLocalizedSunriseSunset()
+	fmt.Fprintf(w, "%s", location.GetDisplayString())
 }
 
 func main() {
