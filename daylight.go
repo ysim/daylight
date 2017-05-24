@@ -149,7 +149,13 @@ func GetLocationInfoFromIP(ip string) Location {
 		log.Fatal(err)
 	}
 	err = json.NewDecoder(response.Body).Decode(&geo)
-	location := Location{City: geo.City, Country: geo.CountryName, Timezone: geo.Timezone, Latitude: geo.Latitude, Longitude: geo.Longitude}
+	location := Location{
+		City:      geo.City,
+		Country:   geo.CountryName,
+		Timezone:  geo.Timezone,
+		Latitude:  geo.Latitude,
+		Longitude: geo.Longitude,
+	}
 
 	// Sometimes freegeoip doesn't return the city name for some reason
 	if geo.City == "" {
