@@ -39,12 +39,27 @@ Get the local sunrise/sunset times for another day:
     sunrise: 7:10 AM
     sunset: 7:06 PM
 
+Get the sunrise/sunset times for a particular place for today:
+
+    $ daylight-cli -address="Ushuaia"
+    Ushuaia, Argentina
+    sunrise: 12:34 PM
+    sunset: 8:25 PM
+
+Get the sunrise/sunset times for a particular place for some other day:
+
+    $ daylight-cli -address="Toronto" -date="2016-12-23"
+    Toronto, Canada
+    sunrise: 7:49 AM
+    sunset: 4:45 PM
+
 
 ### APIs and resources used
 
 * <http://checkip.amazonaws.com/>
 * <https://sunrise-sunset.org/api>
 * <https://freegeoip.net>
+* Google Maps Geocoding API: <https://github.com/googlemaps/google-maps-services-go> (server only)
 
 
 ### Links
