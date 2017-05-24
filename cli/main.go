@@ -22,5 +22,5 @@ func main() {
 	location.GetLocalizedSunriseSunset()
 
 	// Now display the info.
-	location.Display()
+	fmt.Println(location.GetDisplayString())
 }

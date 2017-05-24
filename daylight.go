@@ -228,10 +228,10 @@ func FormatTimeForUser(timeInput time.Time) string {
 	return formattedTime
 }
 
-func (location *Location) Display() {
+func (location *Location) GetDisplayString() string {
 	// Info that is printed to the screen for the user
 	formattedSunriseTime := FormatTimeForUser(location.SunriseLocal)
 	formattedSunsetTime := FormatTimeForUser(location.SunsetLocal)
-	fmt.Printf("%s, %s\n", location.City, location.Country)
-	fmt.Printf("sunrise: %s\nsunset: %s\n", formattedSunriseTime, formattedSunsetTime)
+	displayString := fmt.Sprintf("%s, %s\nsunrise: %s\nsunset: %s", location.City, location.Country, formattedSunriseTime, formattedSunsetTime)
+	return displayString
 }
