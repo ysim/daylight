@@ -3,19 +3,26 @@ package daylight
 import (
 	"encoding/json"
 	"fmt"
+	"github.com/bradfitz/latlong"
+	"golang.org/x/net/context"
+	"googlemaps.github.io/maps"
 	"io/ioutil"
 	"log"
 	"net/http"
+	"os"
 	"strconv"
 	"strings"
 	"time"
 )
 
 const (
-	externalIPurl    = "http://checkip.amazonaws.com/"
-	geoIPurl         = "https://freegeoip.net/json/"
-	sunriseSunsetUrl = "https://api.sunrise-sunset.org/json"
+	externalIPurl             = "http://checkip.amazonaws.com/"
+	geoIPurl                  = "https://freegeoip.net/json/"
+	sunriseSunsetUrl          = "https://api.sunrise-sunset.org/json"
+	googleMapsGeocodingAPIurl = "https://maps.googleapis.com/maps/api/geocode/json"
 )
+
+var googleApiKey = os.Getenv("GOOGLE_MAPS_API_KEY")
 
 type GeoIP struct {
 	Ip          string  `json:"ip"`
@@ -69,6 +76,50 @@ type Location struct {
 
 type City struct {
 	Name string
+}
+
+func UnpackGeocodingResultToLocation(geocode maps.GeocodingResult) Location {
+	// Get the City and Country
+	city := geocode.AddressComponents[0].LongName
+	country := geocode.AddressComponents[len(geocode.AddressComponents)-1].LongName
+	latitude := geocode.Geometry.Location.Lat
+	longitude := geocode.Geometry.Location.Lng
+	timezone := latlong.LookupZoneName(latitude, longitude)
+	location := Location{
+		City:      city,
+		Country:   country,
+		Latitude:  latitude,
+		Longitude: longitude,
+		Timezone:  timezone,
+	}
+	return location
+}
+
+func BuildLocation(address string) Location {
+	// If no address provided in cli, get timezone from ip address
+	if address == "" {
+		ipAddress := GetIP()
+		location := GetLocationInfoFromIP(ipAddress)
+		return location
+	}
+
+	// Alternatively, use address from user input if one was provided
+	// First, look up the coordinates using the Google Maps Geocoding API
+	c, err := maps.NewClient(maps.WithAPIKey(googleApiKey))
+	if err != nil {
+		log.Fatal(err)
+	}
+	request := &maps.GeocodingRequest{
+		Address: address,
+	}
+	response, err := c.Geocode(context.Background(), request)
+	if err != nil {
+		log.Fatal(err)
+	}
+	location := UnpackGeocodingResultToLocation(response[0])
+	// TODO: Uncomment when logging levels are figured out
+	//log.Printf("%+v\n", location)
+	return location
 }
 
 func GetIP() string {
