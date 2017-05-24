@@ -1,6 +1,43 @@
 {
 	"comment": "",
 	"ignore": "test",
-	"package": [],
+	"package": [
+		{
+			"checksumSHA1": "AeAFaDs6ibjgyQhmuFq95g/zsBs=",
+			"path": "github.com/bradfitz/latlong",
+			"revision": "f3db6d0dff40d47957be82e1a6645574fb041f95",
+			"revisionTime": "2017-04-10T18:09:02Z"
+		},
+		{
+			"checksumSHA1": "aGuNf/qfxlX1Yv8ej8QvKvU4p7I=",
+			"path": "github.com/ysim/daylight",
+			"revision": "7755118e2f27f915cd1db5e3d293060e80870721",
+			"revisionTime": "2017-05-24T18:44:35Z"
+		},
+		{
+			"checksumSHA1": "Y+HGqEkYM15ir+J93MEaHdyFy0c=",
+			"path": "golang.org/x/net/context",
+			"revision": "5b58a9c3e1690d33a592e5b791638e25eb9b3f70",
+			"revisionTime": "2017-05-24T09:28:03Z"
+		},
+		{
+			"checksumSHA1": "WHc3uByvGaMcnSoI21fhzYgbOgg=",
+			"path": "golang.org/x/net/context/ctxhttp",
+			"revision": "5b58a9c3e1690d33a592e5b791638e25eb9b3f70",
+			"revisionTime": "2017-05-24T09:28:03Z"
+		},
+		{
+			"checksumSHA1": "PDh47U74SGfzIGupMWFKnuKhly8=",
+			"path": "googlemaps.github.io/maps",
+			"revision": "7e6d3a39d247a1352390266b3493fa29db12fd15",
+			"revisionTime": "2017-03-23T21:31:36Z"
+		},
+		{
+			"checksumSHA1": "T47E4DD/+UCGq0rAc70yGCEWJ0w=",
+			"path": "googlemaps.github.io/maps/internal",
+			"revision": "7e6d3a39d247a1352390266b3493fa29db12fd15",
+			"revisionTime": "2017-03-23T21:31:36Z"
+		}
+	],
 	"rootPath": "github.com/ysim/daylight/web"
 }
