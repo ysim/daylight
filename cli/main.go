@@ -13,7 +13,7 @@ func main() {
 
 	// Get a Location struct either based on IP or address input
 	// It should include the City, Country, Latitude/Longitude, and Timezone
-	location := daylight.BuildLocation(*address)
+	location := daylight.BuildLocation(*address, "")
 
 	// Now populate the location struct with SunriseUTC and SunsetUTC
 	location.GetSunriseSunset(*date)

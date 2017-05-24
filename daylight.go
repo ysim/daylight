@@ -95,11 +95,12 @@ func UnpackGeocodingResultToLocation(geocode maps.GeocodingResult) Location {
 	return location
 }
 
-func BuildLocation(address string) Location {
+func BuildLocation(address string, ip string) Location {
+	// TODO: Error handling in the event that both or none are provided
+
 	// If no address provided in cli, get timezone from ip address
 	if address == "" {
-		ipAddress := GetIP()
-		location := GetLocationInfoFromIP(ipAddress)
+		location := GetLocationInfoFromIP(ip)
 		return location
 	}
 
