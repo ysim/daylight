@@ -210,6 +210,9 @@ func (location *Location) GetLocalizedSunriseSunset() {
 	sunriseUTCTime, _ := StringToTime(location.SunriseUTC)
 	sunsetUTCTime, _ := StringToTime(location.SunsetUTC)
 
+	// TODO: time.LoadLocation will just assume UTC if location.Timezone is nil,
+	// resulting in location.Sun{rise,set}Local being in UTC time without
+	// erroring
 	localizedTimezone, err := time.LoadLocation(location.Timezone)
 	if err != nil {
 		log.Fatal("Unable to load location: %s", err)
