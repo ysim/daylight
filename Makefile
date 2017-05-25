@@ -15,4 +15,7 @@ build: daylight.go cli/main.go
 	go build -o bin/daylight-cli cli/main.go
 	ls -al bin/*
 
-.PHONY: all get-deps clean test build
+deploy-web:
+	git subtree push --prefix web heroku master
+
+.PHONY: all get-deps clean test build deploy-web
