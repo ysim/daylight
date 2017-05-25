@@ -26,7 +26,7 @@ func handler(w http.ResponseWriter, r *http.Request) {
 	externalip := daylight.GetIP()
 	xff := r.Header.Get("X-Forwarded-For")
 	remoteaddr := r.RemoteAddr
-	fmt.Fprintf(w, "external IP: %s\norigin IP: %s\nremote addr: %s", externalip, xff, remoteaddr)
+	fmt.Fprintf(w, "isabs: %s\nexternal IP: %s\norigin IP: %s\nremote addr: %s", r.URL.IsAbs(), externalip, xff, remoteaddr)
 	// TODO: uncomment when GetClientIP is fixed
 	//clientIP := GetClientIP(r)
 	//location := daylight.BuildLocation("", clientIP)
