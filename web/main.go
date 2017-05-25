@@ -13,26 +13,19 @@ func GetClientIP(r *http.Request) string {
 	if r.URL.IsAbs() == false {
 		return daylight.GetIP()
 	}
-
 	xff := r.Header.Get("X-Forwarded-For")
 	if xff != "" {
 		return xff
 	}
-
 	return r.RemoteAddr
 }
 
 func handler(w http.ResponseWriter, r *http.Request) {
-	externalip := daylight.GetIP()
-	xff := r.Header.Get("X-Forwarded-For")
-	remoteaddr := r.RemoteAddr
-	fmt.Fprintf(w, "isabs: %s\nexternal IP: %s\norigin IP: %s\nremote addr: %s", r.URL.IsAbs(), externalip, xff, remoteaddr)
-	// TODO: uncomment when GetClientIP is fixed
-	//clientIP := GetClientIP(r)
-	//location := daylight.BuildLocation("", clientIP)
-	//location.GetSunriseSunset("today")
-	//location.GetLocalizedSunriseSunset()
-	//fmt.Fprintf(w, "%s", location.GetDisplayString())
+	clientIP := GetClientIP(r)
+	location := daylight.BuildLocation("", clientIP)
+	location.GetSunriseSunset("today")
+	location.GetLocalizedSunriseSunset()
+	fmt.Fprintf(w, "%s", location.GetDisplayString())
 }
 
 func main() {
