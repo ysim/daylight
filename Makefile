@@ -4,6 +4,7 @@ all: build
 
 get-deps:
 	go get github.com/stretchr/testify/assert
+	go get github.com/kardianos/govendor # Dependency management for Heroku
 
 clean:
 	$(RM) bin/*
