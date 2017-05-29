@@ -15,6 +15,9 @@ test:
 build: daylight.go cli/main.go
 	go build -o bin/daylight-cli cli/main.go
 
+install:
+	install bin/daylight-cli "${HOME}/bin/daylight-cli"
+
 deploy-web:
 	git subtree push --prefix web heroku master
 
