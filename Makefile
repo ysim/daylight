@@ -21,4 +21,7 @@ install:
 deploy-web:
 	git subtree push --prefix web heroku master
 
+deploy-web-force:
+	git push heroku `git subtree split --prefix web master`:master --force
+
 .PHONY: all get-deps clean test build deploy-web
