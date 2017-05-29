@@ -14,7 +14,6 @@ test:
 
 build: daylight.go cli/main.go
 	go build -o bin/daylight-cli cli/main.go
-	ls -al bin/*
 
 deploy-web:
 	git subtree push --prefix web heroku master
