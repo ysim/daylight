@@ -34,21 +34,21 @@ are (based on your IP address), today:
 
 Get the local sunrise/sunset times for another day:
 
-    $ daylight-cli -date=2016-09-25
+    $ daylight-cli -date 2016-09-25
     Oslo, Norway
     sunrise: 7:10 AM
     sunset: 7:06 PM
 
 Get the sunrise/sunset times for a particular place for today:
 
-    $ daylight-cli -address="Ushuaia"
+    $ daylight-cli -address Ushuaia
     Ushuaia, Argentina
     sunrise: 12:34 PM
     sunset: 8:25 PM
 
 Get the sunrise/sunset times for a particular place for some other day:
 
-    $ daylight-cli -address="Toronto" -date="2016-12-23"
+    $ daylight-cli -address Toronto -date 2016-12-23
     Toronto, Canada
     sunrise: 7:49 AM
     sunset: 4:45 PM
