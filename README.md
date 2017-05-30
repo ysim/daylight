@@ -39,6 +39,12 @@ Get the local sunrise/sunset times for another day:
     sunrise: 7:10 AM
     sunset: 7:06 PM
 
+You also have the option to get the sunrise/sunset times for another place.
+However, this requires a key from the Google Maps Geocoding API, which you
+can get here: <https://developers.google.com/maps/documentation/geocoding/start>
+
+Then export the key as the `GOOGLE_MAPS_API_KEY` environment variable.
+
 Get the sunrise/sunset times for a particular place for today:
 
     $ daylight-cli -address Ushuaia
@@ -46,7 +52,8 @@ Get the sunrise/sunset times for a particular place for today:
     sunrise: 12:34 PM
     sunset: 8:25 PM
 
-Get the sunrise/sunset times for a particular place for some other day:
+Combine both options and get the sunrise/sunset times for a particular place
+for some other day:
 
     $ daylight-cli -address Toronto -date 2016-12-23
     Toronto, Canada
@@ -59,7 +66,7 @@ Get the sunrise/sunset times for a particular place for some other day:
 * <http://checkip.amazonaws.com/>
 * <https://sunrise-sunset.org/api>
 * <https://freegeoip.net>
-* Google Maps Geocoding API: <https://github.com/googlemaps/google-maps-services-go> (server only)
+* Google Maps Geocoding API: <https://github.com/googlemaps/google-maps-services-go>
 
 
 ### Links
