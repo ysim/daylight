@@ -1,5 +1,6 @@
 .PHONY: fetch-deps
 fetch-deps:
+	go get github.com/kardianos/govendor # Dependency management for Heroku
 	govendor fetch github.com/ysim/daylight
 
 .PHONY: run
